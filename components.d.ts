@@ -11,6 +11,7 @@ declare module '@vue/runtime-core' {
   export interface GlobalComponents {
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
+    Search: typeof import('./src/components/Search/index.vue')['default']
     VanButton: typeof import('vant/es')['Button']
     VanCellGroup: typeof import('vant/es')['CellGroup']
     VanCol: typeof import('vant/es')['Col']
@@ -18,6 +19,8 @@ declare module '@vue/runtime-core' {
     VanForm: typeof import('vant/es')['Form']
     VanNavBar: typeof import('vant/es')['NavBar']
     VanRow: typeof import('vant/es')['Row']
+    VanSearch: typeof import('vant/es')['Search']
+    VanSticky: typeof import('vant/es')['Sticky']
     VanTab: typeof import('vant/es')['Tab']
     VanTabs: typeof import('vant/es')['Tabs']
   }
