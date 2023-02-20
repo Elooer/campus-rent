@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="container">
     <van-nav-bar left-text="返回" right-text="登录" left-arrow @click-left="onClickLeft" @click-right="onClickRight" />
     <div class="login_title">注册</div>
     <div class="form_box">
@@ -54,6 +54,10 @@ const register = () => {
 
 </script>
 <style lang="less" scoped>
+.container {
+  height: 100vh;
+}
+
 :deep(.van-nav-bar__text) {
   color: @theme-color;
 }

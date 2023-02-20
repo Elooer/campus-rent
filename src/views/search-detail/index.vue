@@ -1,6 +1,6 @@
 <template>
   <div class="index">
-    <Search background="#ccc" />
+    <Search is-show />
   </div>
 </template>
 <script lang="ts" setup>
