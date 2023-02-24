@@ -6,13 +6,16 @@
   </div>
 </template>
 <script lang="ts" setup>
-import { reactive, ref } from 'vue'
+import { onMounted, onUnmounted, ref } from 'vue';
 import Search from '../../components/Search/index.vue'
 import Tabbar from '../../components/Tabbar/index.vue'
 import Waterfall from './components/Waterfall.vue';
 
 
 
-
 </script>
-<style lang="less" scoped></style>
+<style lang="less" scoped>
+.index {
+  position: relative;
+}
+</style>
