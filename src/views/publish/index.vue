@@ -9,13 +9,12 @@
         show-word-limit />
     </van-cell-group>
     <van-uploader :after-read="afterRead" />
-    <van-cell is-link title="价格" @click="show = true" />
-    <van-action-sheet v-model:show="show" title="标题">
-      <div class="content">
-        <van-number-keyboard :show="show" theme="custom" :extra-key="['00', '.']" close-button-text="完成"
-          @blur="show = false" @input="onInput" />
-      </div>
-    </van-action-sheet>
+    <div class="price" @click="show = true">
+      <div>价格</div>
+      <div><span style="margin-right: 20px;color: #818fec;">￥ {{ price }}</span><van-icon name="arrow" /></div>
+    </div>
+    <van-number-keyboard :show="show" theme="custom" :extra-key="['00', '.']" close-button-text="完成" @blur="onBlur"
+      @input="onInput" @delete="onDelete" />
     <Tabbar />
   </div>
 </template>
@@ -25,32 +24,45 @@ import Tabbar from '../../components/Tabbar/index.vue'
 
 const state = reactive({
   information: '',
-  show: false
+  show: false,
+  price: '0.0'
 })
 
-const { information, show } = toRefs(state)
+const { information, show, price } = toRefs(state)
 
 const afterRead = (file: any) => {
   // 此时可以自行将文件上传至服务器
-  console.log(file);
+
 }
 
+let s = ''
 const onInput = (value: string) => {
-  console.log(value);
+  s += value
+  price.value = s
+}
 
+const onDelete = () => {
+  s = s.slice(0, s.length - 1)
+  price.value = s
+}
+
+const onBlur = () => {
+  show.value = false
+  if (price.value[price.value.length - 1] === '.') {
+    price.value += 0
+  }
 }
 
 </script>
 <style lang="less" scoped>
 .publish_container {
-
+  padding: 0 20px;
 
   .publish_header {
     display: flex;
     justify-content: space-between;
     height: 8vh;
     line-height: 8vh;
-    padding: 0 20px;
     font-size: 30px;
 
     .pub {
@@ -65,17 +77,11 @@ const onInput = (value: string) => {
     }
   }
 
-  .van-cell-group {
-    width: 690px;
-    margin: auto;
-
-    .van-field__body {
-      padding-left: 10px;
-    }
-  }
-
-  .content {
-    padding: 16px 16px 160px;
+  .price {
+    display: flex;
+    justify-content: space-between;
+    height: 5vh;
+    line-height: 5vh;
   }
 }
 </style>

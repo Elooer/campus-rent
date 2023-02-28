@@ -15,8 +15,8 @@ const active = ref(0)
 
 </script>
 <style lang="less" scoped>
-.index {
-  position: absolute;
-  bottom: 0;
-}
+// .index {
+//   position: absolute;
+//   bottom: 0;
+// }
 </style>
