@@ -4,20 +4,18 @@
       :style="'height:' + item.height + 'px'">
       <template v-if="isInVisiblePages(visibleIndexs, index)">
         <div class="waterfull__item__left" :style="offsetTop(item.leftOffset as number)">
-          <img class="img" v-for="item1 in item.leftData" :src="item1.coverImage"
-            :style="getWidthAndHeight(item1.imgHeight / item1.imgWidth)" />
+          <Card :cardData="item.leftData" />
         </div>
         <div class="waterfull__item__right" :style="offsetTop(item.rightOffset as number)">
-          <img class="img" v-for="item2 in item.rightData" :src="item2.coverImage"
-            :style="getWidthAndHeight(item2.imgHeight / item2.imgWidth)" />
+          <Card :cardData="item.rightData" />
         </div>
       </template>
-
     </div>
   </div>
 </template>
 <script lang="ts" setup>
 import { onMounted, onUnmounted, watch, ref, nextTick } from 'vue'
+import Card from './Card.vue'
 
 interface RowDataList {
   title: string
@@ -57,9 +55,9 @@ type Records<T, U> = {
 let tem = [
   {
     title: '我的初秋报到妆 | 分享初秋妆容 送唇釉',
-    coverImage: 'https://dummyimage.com/750x1000/3c91ff/fff',
-    imgHeight: 500,
-    imgWidth: 375,
+    coverImage: 'https://gd-hbimg.huaban.com/5b314d221d9b8a3f0185dae7c910333b451950974baf0-DOwmVi_fw320',
+    imgHeight: 162,
+    imgWidth: 189,
     creator: {
       avatar: 'https://dummyimage.com/240x240/e28f48/fff&text=avatar',
       nickname: '小春子'
@@ -67,9 +65,9 @@ let tem = [
   },
   {
     title: '科普｜一到换季😭脸就痒痒⁉️别慌，有救的🤜',
-    coverImage: 'https://dummyimage.com/750x1000/ff3f50/fff',
-    imgHeight: 500,
-    imgWidth: 375,
+    coverImage: 'https://gd-hbimg.huaban.com/e83d73b87ca344f2c2978a98e91293b08100fe521820bb-qFhqUe_fw320',
+    imgHeight: 251,
+    imgWidth: 189,
     creator: {
       avatar: 'https://dummyimage.com/240x240/e28f48/fff&text=avatar',
       nickname: '小春子'
@@ -77,9 +75,9 @@ let tem = [
   },
   {
     title: '惊现秘密の花园⁉️只要0.1元就能邂逅🧚🏻‍♀️花仙子>>',
-    coverImage: 'https://dummyimage.com/750x1000/70c743/fff',
-    imgHeight: 500,
-    imgWidth: 375,
+    coverImage: 'https://gd-hbimg.huaban.com/6a3d157cf428f98b4bc2cc0330d96a39ced73188e7c37-UpT15C_fw320',
+    imgHeight: 125,
+    imgWidth: 189,
     creator: {
       avatar: 'https://dummyimage.com/240x240/e28f48/fff&text=avatar',
       nickname: '小春子'
@@ -87,9 +85,9 @@ let tem = [
   },
   {
     title: '辟谣第三弹💣黑头可以根除❓',
-    coverImage: 'https://dummyimage.com/750x1000/deb43b/fff',
-    imgHeight: 500,
-    imgWidth: 375,
+    coverImage: 'https://gd-hbimg.huaban.com/f9bfd2504b9e53a7b71fcdd08036533f855814d724d783-OGEXVU_fw320',
+    imgHeight: 183,
+    imgWidth: 189,
     creator: {
       avatar: 'https://dummyimage.com/240x240/e28f48/fff&text=avatar',
       nickname: '小春子'
@@ -97,9 +95,9 @@ let tem = [
   },
   {
     title: '干燥到掉皮？！3️⃣招，让肌肤远离“多事之秋”‼️',
-    coverImage: 'https://dummyimage.com/750x1000/efbf67/fff',
-    imgHeight: 500,
-    imgWidth: 375,
+    coverImage: 'https://gd-hbimg.huaban.com/14aa1b3cf27386cffb7a8e38950b6187bd98b521107743-LNx1o5_fw320',
+    imgHeight: 245,
+    imgWidth: 189,
     creator: {
       avatar: 'https://dummyimage.com/240x240/e28f48/fff&text=avatar',
       nickname: '小春子'
@@ -107,9 +105,9 @@ let tem = [
   },
   {
     title: '0623#「小光环」精华使用打卡#中奖名单',
-    coverImage: 'https://dummyimage.com/750x1000/c767ef/fff',
-    imgHeight: 500,
-    imgWidth: 375,
+    coverImage: 'https://gd-hbimg.huaban.com/1650c5ef4fe8bc39d9cfde60e22abaa6dae1060330400-lDTVsa_fw320',
+    imgHeight: 324,
+    imgWidth: 189,
     creator: {
       avatar: 'https://dummyimage.com/240x240/e28f48/fff&text=avatar',
       nickname: '小春子'
@@ -117,9 +115,9 @@ let tem = [
   },
   {
     title: '秋季🍂护肤第一步：你的水补够了没？🌊',
-    coverImage: 'https://dummyimage.com/750x1000/ef679f/fff',
-    imgHeight: 500,
-    imgWidth: 375,
+    coverImage: 'https://gd-hbimg.huaban.com/8352f0be89c001aa20b53505543e3e14265a81a466740-POh8GZ_fw320',
+    imgHeight: 189,
+    imgWidth: 189,
     creator: {
       avatar: 'https://dummyimage.com/240x240/e28f48/fff&text=avatar',
       nickname: '小春子'
@@ -127,9 +125,9 @@ let tem = [
   },
   {
     title: '懒妹妹进！补水💦维稳💡清洁✨靠TA全搞定',
-    coverImage: 'https://dummyimage.com/320x180/67d1e2/fff',
-    imgHeight: 180,
-    imgWidth: 320,
+    coverImage: 'https://gd-hbimg.huaban.com/7a334626869925bf706175a4803ec5700b9ec3336161e-HpsvR9_fw320',
+    imgHeight: 279,
+    imgWidth: 189,
     creator: {
       avatar: 'https://dummyimage.com/240x240/e28f48/fff&text=avatar',
       nickname: '小春子'
@@ -137,9 +135,9 @@ let tem = [
   },
   {
     title: '无辜眼镜👓妆～不经意的可爱最为致命！',
-    coverImage: 'https://dummyimage.com/750x1000/9b67ef/fff',
-    imgHeight: 1080,
-    imgWidth: 828,
+    coverImage: 'https://gd-hbimg.huaban.com/e8897a140fb6265a04622417c435cadc07e0b04121fd2-BW7pl6_fw320',
+    imgHeight: 144,
+    imgWidth: 89,
     creator: {
       avatar: 'https://dummyimage.com/240x240/e28f48/fff&text=avatar',
       nickname: '小春姐姐'
@@ -147,17 +145,15 @@ let tem = [
   },
   {
     title: '3️⃣步精简护肤💦清爽男友我先get！',
-    coverImage: 'https://dummyimage.com/750x1000/6fcc68/fff',
-    imgHeight: 1000,
-    imgWidth: 750,
+    coverImage: 'https://gd-hbimg.huaban.com/4794fd35b56ef5b50c4ca20b97616782aff5d8d134565-kmvjP0_fw320',
+    imgHeight: 284,
+    imgWidth: 189,
     creator: {
       avatar: 'https://dummyimage.com/240x240/e28f48/fff&text=avatar',
       nickname: '小春子'
     }
   }
 ]
-
-
 
 
 const offsetTop = (offset: number) => {
@@ -208,10 +204,10 @@ const handleWaterfullList = (list: FirstHandleData<RowDataList[]>[]) => {
     const rightData: RowDataList[] = []
     item.data.forEach(article => {
       if (leftHeight <= rightHeight) {
-        leftHeight += article.imgHeight / article.imgWidth * document.documentElement.clientWidth / 2
+        leftHeight += article.imgHeight / article.imgWidth * document.documentElement.clientWidth / 2 + 70
         leftData.push(article)
       } else {
-        rightHeight += article.imgHeight / article.imgWidth * document.documentElement.clientWidth / 2
+        rightHeight += article.imgHeight / article.imgWidth * document.documentElement.clientWidth / 2 + 70
         rightData.push(article)
       }
     })
@@ -244,8 +240,6 @@ const createObserve = () => {
         let index = Number(entries[entry].target.getAttribute('index'))
         currentIndex.value = index
         visibleIndexs.value = [index - 1, index, index + 1]
-      } else {
-        io.value?.unobserve((arr.value as any)[entry])
       }
     }
   }, {
@@ -264,11 +258,6 @@ watch(records, () => {
   })
 })
 
-
-const getWidthAndHeight = (ratio: number) => {
-  return { width: '100%', height: `calc(${ratio} * 50vw)` }
-}
-
 const initScroll = () => {
   //初始化滑动事件监听器
   window.addEventListener('scroll', scrollListener)
@@ -282,8 +271,6 @@ const scrollListener = () => {
   let scrollY = document.documentElement.scrollTop || document.body.scrollTop // 滚动条在Y轴上的滚动距离
   let vh = document.compatMode === 'CSS1Compat' ? document.documentElement.clientHeight : document.body.clientHeight // 页面的可视高度（能看见的）
   let allHeight = Math.max(document.body.scrollHeight, document.documentElement.scrollHeight) // 页面的总高度（所有的）
-  // console.log('scrollY', scrollY + vh)
-  // console.log('allHeight', allHeight - 300)
   if ((scrollY + vh) >= (allHeight - 1)) { // 当滚动条滑到页面底部
     defaultArticles.value = [...defaultArticles.value, ...tem]
   }
@@ -314,14 +301,16 @@ onUnmounted(() => {
 .waterfull__item__right {
   position: absolute;
   top: 0;
-  width: 50vw;
+  width: calc(50vw - 15px);
 }
 
 .waterfull__item__left {
   left: 0;
+  margin: 0 5px 0 10px;
 }
 
 .waterfull__item__right {
   right: 0;
+  margin: 0 10px 0 5px;
 }
 </style>

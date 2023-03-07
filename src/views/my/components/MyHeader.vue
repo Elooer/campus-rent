@@ -1,10 +1,16 @@
 <template>
   <div class="header_container">
-    <div class="header_box">
+    <div class="header_box" v-if="mainStore.token">
       <div class="avatar">
         <img src="https://avatars.githubusercontent.com/u/75289160?v=4" alt="">
       </div>
       <div class="username">张三</div>
+    </div>
+    <div class="header_box" @click="toLogin" v-else>
+      <div class="avatar">
+        <img src="../../../assets/icons/unlogin.png" alt="">
+      </div>
+      <div class="username">请登录<van-icon name="arrow" /></div>
     </div>
     <div class="index">
       <div class="index_item">
@@ -28,6 +34,15 @@
 </template>
 <script lang="ts" setup>
 import { reactive, ref } from 'vue'
+import { useRouter } from 'vue-router'
+import { useMainStore } from '../../../store/index'
+
+const mainStore = useMainStore()
+const router = useRouter()
+
+const toLogin = () => {
+  router.push('/login')
+}
 
 </script>
 <style lang="less" scoped>

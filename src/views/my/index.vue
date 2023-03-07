@@ -4,7 +4,7 @@
     <div class="my_card">
       <div class="my_card_item" v-for="item in 8">我的交易</div>
     </div>
-    <van-button color="#7080e4" round type="primary">
+    <van-button color="#7080e4" round type="primary" v-if="mainStore.token">
       退出登录
     </van-button>
     <Tabbar />
@@ -12,8 +12,12 @@
 </template>
 <script lang="ts" setup>
 import { reactive, ref } from 'vue'
+import { useMainStore } from '../../store/index'
 import Tabbar from '../../components/Tabbar/index.vue'
-import MyHeader from './components/MyHeader.vue';
+import MyHeader from './components/MyHeader.vue'
+
+const mainStore = useMainStore()
+
 </script>
 <style lang="less" scoped>
 .my_container {

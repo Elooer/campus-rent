@@ -1,5 +1,5 @@
 <template>
-  <div class="index">
+  <div class="home_container">
     <Search background="#7080e4" :push="true" />
     <Waterfall />
     <Tabbar />
@@ -15,7 +15,7 @@ import Waterfall from './components/Waterfall.vue';
 
 </script>
 <style lang="less" scoped>
-.index {
-  position: relative;
+.home_container {
+  background-color: @bgc;
 }
 </style>

@@ -42,6 +42,10 @@ const onInput = (value: string) => {
 }
 
 const onDelete = () => {
+  if (price.value.split('.')[0].length <= 1) {
+    price.value = '0.0'
+    return
+  }
   s = s.slice(0, s.length - 1)
   price.value = s
 }
@@ -50,6 +54,8 @@ const onBlur = () => {
   show.value = false
   if (price.value[price.value.length - 1] === '.') {
     price.value += 0
+  } else if (price.value.indexOf('.') === -1) {
+    price.value += '.0'
   }
 }
 

@@ -7,12 +7,16 @@ type UserList = {
 }[]
 
 interface State {
+  token: string
   userList: UserList
 }
 
 export const useMainStore = defineStore('main', {
   state: (): State => {
-    return { userList: [] }
+    return {
+      token: '',
+      userList: [],
+    }
   },
   actions: {
     changeUserList(newValue: UserList) {
