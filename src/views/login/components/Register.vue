@@ -27,6 +27,7 @@
 <script lang="ts" setup>
 import { ref } from 'vue'
 import type { FieldRuleValidator } from 'vant'
+import { registerApi } from '../../../api/user'
 
 const username = ref<string>('')
 const password = ref<string>('')
@@ -46,9 +47,9 @@ const validatorMessage: FieldRuleValidator = (val) => {
 }
 
 
-const register = () => {
-  // TODO 登录
-  console.log("注册", username.value)
+const register = async () => {
+  const res = await registerApi({ username: username.value, password: password.value })
+  console.log(res);
 
 }
 

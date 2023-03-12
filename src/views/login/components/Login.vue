@@ -7,7 +7,7 @@
         <img src="@/assets/icons/renew.png" alt="">
       </div>
       <van-form @submit="login">
-        <van-cell-group inset>
+        <van-cell-group>
           <!-- 通过 pattern 进行正则校验 -->
           <van-field v-model="username" name="username" placeholder="请输入用户名"
             :rules="[{ validator: validatorMessage }, { pattern: usernamePattern, message: '用户名在2~8个字符范围' },]" />
@@ -25,8 +25,11 @@
   </div>
 </template>
 <script lang="ts" setup>
-import { ref } from 'vue'
-import type { FieldRuleValidator } from 'vant'
+import { onMounted, ref } from 'vue'
+import { FieldRuleValidator, showNotify } from 'vant'
+import { getUserInfo, loginApi } from '../../../api/user'
+import { useMainStore } from '../../../store/index'
+import router from '../../../router';
 
 const username = ref<string>('')
 const password = ref<string>('')
@@ -39,6 +42,8 @@ const onClickRight = () => {
   emits('logEvent', 'toRegister')
 }
 
+const mainStore = useMainStore()
+
 // 校验函数可以直接返回一段错误提示
 const validatorMessage: FieldRuleValidator = (val) => {
   if (val.trim().length < 1) return '请输入内容'
@@ -46,11 +51,19 @@ const validatorMessage: FieldRuleValidator = (val) => {
 }
 
 
-const login = () => {
-  // TODO 登录
-  console.log("登录", username.value)
+const login = async () => {
 
+  const res = await loginApi({ username: username.value, password: password.value })
+  mainStore.setToken(res.data as string)
+  if (res.flag) {
+    showNotify({ type: 'success', message: res.msg })
+    const { data: info } = await getUserInfo()
+    mainStore.setUserInfo(info)
+    setTimeout(() => router.push('/my'), 300)
+  }
 }
+
+
 
 </script>
 <style lang="less" scoped>

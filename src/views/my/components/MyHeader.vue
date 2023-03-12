@@ -1,10 +1,10 @@
 <template>
   <div class="header_container">
-    <div class="header_box" v-if="mainStore.token">
+    <div class="header_box" v-if="mainStore.token.length">
       <div class="avatar">
-        <img src="https://avatars.githubusercontent.com/u/75289160?v=4" alt="">
+        <img :src="mainStore.userinfo.picture" alt="">
       </div>
-      <div class="username">张三</div>
+      <div class="username">{{ mainStore.userinfo.username }}</div>
     </div>
     <div class="header_box" @click="toLogin" v-else>
       <div class="avatar">
@@ -39,6 +39,9 @@ import { useMainStore } from '../../../store/index'
 
 const mainStore = useMainStore()
 const router = useRouter()
+
+console.log(mainStore.token);
+
 
 const toLogin = () => {
   router.push('/login')

@@ -240,7 +240,7 @@ const initScroll = () => {
   window.addEventListener('scroll', scrollListener)
 }
 
-function throttled(fn: any, delay = 500) {
+function throttled(fn: any, delay = 300) {
   let timer: any = null
   return function (...args: any[]) {
     if (!timer) {

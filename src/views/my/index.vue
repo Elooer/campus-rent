@@ -2,9 +2,10 @@
   <div class="my_container">
     <MyHeader />
     <div class="my_card">
-      <div class="my_card_item" v-for="item in 8">我的交易</div>
+      <div class="my_card_item" @click="toMyInfo">我的资料</div>
+      <div class="my_card_item" v-for="item in 7">我的交易</div>
     </div>
-    <van-button color="#7080e4" round type="primary" v-if="mainStore.token">
+    <van-button color="#7080e4" round type="primary" v-if="mainStore.token" @click="logout">
       退出登录
     </van-button>
     <Tabbar />
@@ -15,8 +16,20 @@ import { reactive, ref } from 'vue'
 import { useMainStore } from '../../store/index'
 import Tabbar from '../../components/Tabbar/index.vue'
 import MyHeader from './components/MyHeader.vue'
+import router from '../../router';
+import { showNotify } from 'vant';
 
 const mainStore = useMainStore()
+
+const toMyInfo = () => {
+  router.push('/myInfo')
+}
+
+const logout = () => {
+  mainStore.deleteToken()
+  showNotify({ type: 'success', message: '已退出登录！' })
+  setTimeout(() => location.reload(), 300)
+}
 
 </script>
 <style lang="less" scoped>
