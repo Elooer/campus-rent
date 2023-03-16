@@ -2,13 +2,14 @@
   <div class="publish_container">
     <div class="publish_header">
       <div>取消</div>
-      <div class="pub">发布</div>
+      <div class="pub" @click="addHandler">发布</div>
     </div>
     <van-cell-group inset>
       <van-field v-model="information" rows="2" autosize type="textarea" maxlength="50" placeholder="请描述您的出租物品"
         show-word-limit />
     </van-cell-group>
     <van-uploader :after-read="afterRead" />
+    <van-field v-model="goodsName" label="名称" placeholder="请输入出租物品名称" />
     <div class="price" @click="show = true">
       <div>价格</div>
       <div><span style="margin-right: 20px;color: #818fec;">￥ {{ price }}</span><van-icon name="arrow" /></div>
@@ -20,19 +21,38 @@
 </template>
 <script lang="ts" setup>
 import { reactive, toRefs } from 'vue'
+import { uploadAvatar } from '../../api/user'
+import { addGoods } from '../../api/goods'
+import useTimeFormat from '../../hooks/useTimeFormat'
 import Tabbar from '../../components/Tabbar/index.vue'
 
 const state = reactive({
   information: '',
   show: false,
-  price: '0.0'
+  goodsName: '',
+  price: '0.0',
+  picture: ''
 })
 
-const { information, show, price } = toRefs(state)
+const { information, show, goodsName, price, picture } = toRefs(state)
 
-const afterRead = (file: any) => {
-  // 此时可以自行将文件上传至服务器
+const addHandler = async () => {
+  const data = {
+    goodsName: goodsName.value,
+    goodsPrice: price.value,
+    goodsDescribe: information.value,
+    goodsTime: useTimeFormat(new Date()),
+    goodsPicture: picture.value
+  }
+  const res = await addGoods(data)
+  console.log(res);
+}
 
+const afterRead = async (file: any) => {
+  const forms = new FormData()
+  forms.append("file", file.file)
+  const res = await uploadAvatar(forms)
+  picture.value = 'https://lapichang.top/' + res.msg
 }
 
 let s = ''
@@ -81,6 +101,12 @@ const onBlur = () => {
       background-color: @theme-color;
       color: #3e3e3e;
     }
+  }
+
+  .van-field {
+    height: 100px;
+    font-size: 33px;
+    line-height: 100px;
   }
 
   .price {

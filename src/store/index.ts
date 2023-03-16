@@ -32,6 +32,16 @@ export const useMainStore = defineStore('main', {
       userList: [],
     }
   },
+  persist: {
+    enabled: true, // 开启存储
+    // **strategies: 指定存储位置以及存储的变量都有哪些,该属性可以不写，不写的话默认是存储到sessionStorage里边，默认存储state里边的所有数据**
+    strategies: [
+      { storage: sessionStorage, paths: ['userinfo', 'userList'] },
+      // storage 存储到哪里 sessionStorage/localStorage
+      // paths是一个数组,要存储缓存的变量,当然也可以写多个
+      // paths如果不写就默认存储state里边的所有数据，如果写了就存储指定的变量
+    ],
+  },
   actions: {
     changeUserList(newValue: UserList) {
       this.userList = newValue

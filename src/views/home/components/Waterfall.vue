@@ -1,12 +1,12 @@
 <template>
-  <div class="waterfull">
-    <div class="waterfull__item" ref="wrap" v-for="(item, index) in records" :key="index" :index="index"
+  <div class="waterfall">
+    <div class="waterfall__item" ref="wrap" v-for="(item, index) in records" :key="index" :index="index"
       :style="'height:' + item.height + 'px'">
       <template v-if="isInVisiblePages(visibleIndexs, index)">
-        <div class="waterfull__item__left" :style="offsetTop(item.leftOffset as number)">
+        <div class="waterfall__item__left" :style="offsetTop(item.leftOffset as number)">
           <Card :cardData="item.leftData" />
         </div>
-        <div class="waterfull__item__right" :style="offsetTop(item.rightOffset as number)">
+        <div class="waterfall__item__right" :style="offsetTop(item.rightOffset as number)">
           <Card :cardData="item.rightData" />
         </div>
       </template>
@@ -15,6 +15,7 @@
 </template>
 <script lang="ts" setup>
 import { onMounted, onUnmounted, watch, ref, nextTick } from 'vue'
+import { getAllGoods } from '../../../api/goods';
 import Card from './Card.vue'
 interface RowDataList {
   title: string
@@ -149,11 +150,13 @@ let tem = [
     }
   }
 ]
+
 const offsetTop = (offset: number) => {
   return offset > 0
     ? 'top: -' + offset + 'px'
     : ''
 }
+
 const defaultArticles = ref<RowDataList[]>([...tem])
 const io = ref<IntersectionObserver>()
 const records = ref<Records<RowDataList[], number>>()
@@ -163,11 +166,16 @@ const currentIndex = ref(0)
 const isInVisiblePages = (visibleIndexs: number[], current: number) => {
   return visibleIndexs.indexOf(current) > -1
 }
+
+getAllGoods().then(res => console.log(res)
+)
+
 onMounted(() => {
   initScroll()
   watch(defaultArticles, handleArticleData)
   defaultArticles.value = [...defaultArticles.value, ...tem]
 })
+
 const handleArticleData = (list: RowDataList[]) => {
   const _list = [...list]
   const allList = []
@@ -177,9 +185,9 @@ const handleArticleData = (list: RowDataList[]) => {
       data: currentList
     })
   }
-  handleWaterfullList(allList)
+  handleWaterfallList(allList)
 }
-const handleWaterfullList = (list: FirstHandleData<RowDataList[]>[]) => {
+const handleWaterfallList = (list: FirstHandleData<RowDataList[]>[]) => {
   (list as SecondHandleData<RowDataList[]>[]).forEach((item: SecondHandleData<RowDataList[]>, index: number) => {
     const isLast = index + 1 === list.length
     let leftHeight = 0 - item.leftOffset! || 0
@@ -212,6 +220,7 @@ const handleWaterfullList = (list: FirstHandleData<RowDataList[]>[]) => {
   })
   records.value = list as Records<RowDataList[], number>
 }
+
 const createObserve = () => {
   io.value = new IntersectionObserver(function (entries) {
     for (let entry in entries) {
@@ -226,15 +235,17 @@ const createObserve = () => {
     threshold: 0.5
   })
 }
+
 createObserve()
 watch(records, () => {
-  arr.value = document.querySelectorAll('.waterfull__item')
+  arr.value = document.querySelectorAll('.waterfall__item')
   nextTick(() => {
     arr.value!.forEach(item => {
       io.value?.observe(item as Element)
     })
   })
 })
+
 const initScroll = () => {
   //初始化滑动事件监听器
   window.addEventListener('scroll', scrollListener)
@@ -265,6 +276,7 @@ const scrollListener = () => {
     }
   })()
 }
+
 onUnmounted(() => {
   //退出时销毁上滑加载监听的滚动事件
   window.removeEventListener('scroll', scrollListener)
@@ -272,31 +284,31 @@ onUnmounted(() => {
 })
 </script>
 <style lang="less" scoped>
-.waterfull {
+.waterfall {
   padding: 0 12rpx;
   background-color: @bgc;
 }
 
-.waterfull__item {
+.waterfall__item {
   position: relative;
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
 }
 
-.waterfull__item__left,
-.waterfull__item__right {
+.waterfall__item__left,
+.waterfall__item__right {
   position: absolute;
   top: 0;
   width: calc(50vw - 15px);
 }
 
-.waterfull__item__left {
+.waterfall__item__left {
   left: 0;
   margin: 0 5px 0 10px;
 }
 
-.waterfull__item__right {
+.waterfall__item__right {
   right: 0;
   margin: 0 10px 0 5px;
 }

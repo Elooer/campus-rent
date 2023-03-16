@@ -60,6 +60,8 @@ const login = async () => {
     const { data: info } = await getUserInfo()
     mainStore.setUserInfo(info)
     setTimeout(() => router.push('/my'), 300)
+  } else {
+    showNotify({ type: 'danger', message: res.msg })
   }
 }
 

@@ -1,5 +1,5 @@
 <template>
-  <div class="card" v-for="(left, index1) in cardData">
+  <div class="card" v-for="(left, index1) in cardData" @click="toDetail">
     <img class="cover_img" :src="left.coverImage" :style="getWidthAndHeight(left.imgHeight / left.imgWidth)" />
     <div class="describe">{{ index1 }}描述描述描述描述描述描述描述描述描述</div>
     <div class="price">￥100</div>
@@ -11,6 +11,7 @@
 </template>
 <script lang="ts" setup>
 import { reactive, ref } from 'vue'
+import router from '../../../router';
 interface RowDataList {
   title: string
   coverImage: string
@@ -27,6 +28,10 @@ const props = defineProps<{
 
 const getWidthAndHeight = (ratio: number) => {
   return { width: '100%', height: `calc(${ratio} * 50vw)` }
+}
+
+const toDetail = () => {
+  router.push('/detail')
 }
 
 </script>
