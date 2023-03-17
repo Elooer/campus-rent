@@ -1,37 +1,43 @@
 <template>
-  <div class="card" v-for="(left, index1) in cardData" @click="toDetail">
-    <img class="cover_img" :src="left.coverImage" :style="getWidthAndHeight(left.imgHeight / left.imgWidth)" />
-    <div class="describe">{{ index1 }}描述描述描述描述描述描述描述描述描述</div>
-    <div class="price">￥100</div>
+  <div class="card" v-for="(left, index) in cardData" @click="toDetail(index)">
+    <img class="cover_img" :src="left.goodsPicture" :style="getWidthAndHeight(left.pictureHeight / left.pictureWidth)" />
+    <div class="describe">{{ left.goodsDescribe }}</div>
+    <div class="price">￥{{ left.goodsPrice }}</div>
     <div class="publisher">
-      <img class="avatar" src="https://avatars.githubusercontent.com/u/75289160?v=4">
-      <div class="username">张三</div>
+      <img class="avatar" :src="left.picture">
+      <div class="username">{{ left.username }}</div>
     </div>
   </div>
 </template>
 <script lang="ts" setup>
-import { reactive, ref } from 'vue'
-import router from '../../../router';
+import { useRouter } from 'vue-router'
 interface RowDataList {
-  title: string
-  coverImage: string
-  imgHeight: number
-  imgWidth: number
-  creator: {
-    avatar: string
-    nickname: string
-  }
+  uid: string
+  goodsDescribe: string
+  pictureHeight: number
+  pictureWidth: number
+  picture: string
+  goodsPrice: string
+  goodsPicture: string
+  username: string
+  goodsName: string
 }
 const props = defineProps<{
   cardData: RowDataList[]
 }>()
 
+const router = useRouter()
+
 const getWidthAndHeight = (ratio: number) => {
   return { width: '100%', height: `calc(${ratio} * 50vw)` }
 }
 
-const toDetail = () => {
-  router.push('/detail')
+const toDetail = (index: number) => {
+  const { goodsDescribe, picture, goodsPrice, goodsPicture, username, goodsName, uid } = props.cardData[index]
+  router.push({
+    name: 'Detail',
+    query: { goodsDescribe, picture, goodsPrice, goodsPicture, username, goodsName, uid }
+  })
 }
 
 </script>

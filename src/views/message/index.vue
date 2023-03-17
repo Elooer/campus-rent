@@ -2,9 +2,9 @@
   <div class="message_container">
     <van-nav-bar title="消息" />
     <div class="user_list">
-      <div class="user_item" v-for="item in userList" @click="toChat(item + '')">
+      <div class="user_item" v-for="item in userList" @click="toChat(item)">
         <div class="avatar">
-          <img :src="item.avatar" alt="">
+          <img :src="item.picture" alt="">
         </div>
         <div class="username">{{ item.username }}</div>
       </div>
@@ -19,9 +19,9 @@ import Tabbar from '../../components/Tabbar/index.vue'
 import { useMainStore } from '../../store'
 
 type UserList = {
-  id: string
+  uid: string
   username: string
-  avatar: string
+  picture: string
 }[]
 
 const mainStore = useMainStore()
@@ -30,66 +30,17 @@ const state = reactive<{ userList: UserList }>({
   userList: []
 })
 const { userList } = toRefs(state)
-const tem = [{
-  id: '001',
-  username: '张三',
-  avatar: 'https://avatars.githubusercontent.com/u/75289160?v=4'
-}, {
-  id: '001',
-  username: '张三',
-  avatar: 'https://avatars.githubusercontent.com/u/75289160?v=4'
-}, {
-  id: '001',
-  username: '张三',
-  avatar: 'https://avatars.githubusercontent.com/u/75289160?v=4'
-}, {
-  id: '001',
-  username: '张三',
-  avatar: 'https://avatars.githubusercontent.com/u/75289160?v=4'
-}, {
-  id: '001',
-  username: '张三',
-  avatar: 'https://avatars.githubusercontent.com/u/75289160?v=4'
-}, {
-  id: '001',
-  username: '张三',
-  avatar: 'https://avatars.githubusercontent.com/u/75289160?v=4'
-}, {
-  id: '001',
-  username: '张三',
-  avatar: 'https://avatars.githubusercontent.com/u/75289160?v=4'
-}, {
-  id: '001',
-  username: '张三',
-  avatar: 'https://avatars.githubusercontent.com/u/75289160?v=4'
-}, {
-  id: '001',
-  username: '张三',
-  avatar: 'https://avatars.githubusercontent.com/u/75289160?v=4'
-}, {
-  id: '001',
-  username: '张三',
-  avatar: 'https://avatars.githubusercontent.com/u/75289160?v=4'
-}, {
-  id: '001',
-  username: '张三',
-  avatar: 'https://avatars.githubusercontent.com/u/75289160?v=4'
-}, {
-  id: '001',
-  username: '张三',
-  avatar: 'https://avatars.githubusercontent.com/u/75289160?v=4'
-}]
-
-mainStore.changeUserList(tem)
 userList.value = mainStore.userList
 
 const router = useRouter()
 
 
-const toChat = (info: string) => {
+const toChat = (item: any) => {
+  console.log(item);
+
   router.push({
     name: 'Chat',
-    query: { id: 1 }
+    query: item
   })
 }
 

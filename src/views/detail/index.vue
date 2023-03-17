@@ -2,16 +2,16 @@
   <div class="detail_container">
     <div class="publisher">
       <div class="avatar">
-        <img src="https://avatars.githubusercontent.com/u/75289160?v=4" alt="">
+        <img :src="currentData.picture" alt="">
       </div>
-      <div class="username">张三</div>
+      <div class="username">{{ currentData.username }}</div>
     </div>
     <div class="cover">
-      <img src="https://gd-hbimg.huaban.com/5b314d221d9b8a3f0185dae7c910333b451950974baf0-DOwmVi_fw320">
+      <img :src="currentData.goodsPicture">
     </div>
-    <div class="name">商品名称</div>
-    <div class="price">￥100</div>
-    <div class="describe">描述描述描述描述描述描述描述描述描述描述描述描述描述描述描述描述描述描述描述描述描述描述描述描述描述描述描述</div>
+    <div class="name">{{ currentData.goodsName }}</div>
+    <div class="price">￥{{ currentData.goodsPrice }}</div>
+    <div class="describe">{{ currentData.goodsDescribe }}</div>
     <div class="action">
       <div class="collect">
         <van-icon name="star-o" size="25px" />
@@ -24,11 +24,57 @@
   </div>
 </template>
 <script lang="ts" setup>
-import { reactive, ref } from 'vue'
-import router from '../../router';
+import { showNotify } from 'vant'
+import { onMounted, ref } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
+import { addFriend, getFriends } from '../../api/message'
+import { useMainStore } from '../../store'
 
-const toChat = () => {
-  router.push('/chat')
+// interface RowDataList {
+//   uid: string
+//   goodsDescribe: string
+//   picture: string
+//   goodsPrice: string
+//   goodsPicture: string
+//   username: string
+//   goodsName: string
+// }
+const route = useRoute()
+const router = useRouter()
+const currentData = ref()
+const mainStore = useMainStore()
+
+currentData.value = route.query
+
+const toChat = async () => {
+  const myUid = mainStore.userinfo.uid
+  const friendUid = parseInt(currentData.value!.uid)
+  if (myUid === friendUid) {
+    return showNotify({ type: 'danger', message: '您不能和自己聊天' })
+  }
+
+  const { goodsDescribe, picture, goodsPrice, goodsPicture, username, goodsName, uid } = currentData.value
+  if (mainStore.userList.findIndex(item => parseInt(item.uid) === friendUid) !== -1) {
+    console.log(1);
+
+    router.push({
+      name: 'Chat',
+      query: { goodsDescribe, picture, goodsPrice, goodsPicture, username, goodsName, uid }
+    })
+  } else {
+    console.log('这里');
+
+    await addFriend({
+      myUid,
+      friendUid: currentData.value.uid
+    })
+    const list = await getFriends()
+    mainStore.changeUserList(list.data as any)
+    router.push({
+      name: 'Chat',
+      query: { goodsDescribe, picture, goodsPrice, goodsPicture, username, goodsName, uid }
+    })
+  }
 }
 </script>
 <style lang="less" scoped >

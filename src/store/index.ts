@@ -1,9 +1,9 @@
 import { defineStore } from 'pinia'
 
 type UserList = {
-  id: string
+  uid: string
   username: string
-  avatar: string
+  picture: string
 }[]
 
 interface UserInfo {
