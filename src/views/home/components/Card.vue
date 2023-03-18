@@ -11,17 +11,7 @@
 </template>
 <script lang="ts" setup>
 import { useRouter } from 'vue-router'
-interface RowDataList {
-  uid: string
-  goodsDescribe: string
-  pictureHeight: number
-  pictureWidth: number
-  picture: string
-  goodsPrice: string
-  goodsPicture: string
-  username: string
-  goodsName: string
-}
+
 const props = defineProps<{
   cardData: RowDataList[]
 }>()

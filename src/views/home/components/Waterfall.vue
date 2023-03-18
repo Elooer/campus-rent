@@ -19,38 +19,6 @@ import { getAllGoods } from '../../../api/goods'
 import { getFriends } from '../../../api/message'
 import Card from './Card.vue'
 import { useMainStore } from '../../../store'
-interface RowDataList {
-  uid: string
-  goodsDescribe: string
-  pictureHeight: number
-  pictureWidth: number
-  picture: string
-  goodsPrice: string
-  goodsPicture: string
-  username: string
-  goodsName: string
-}
-type FirstHandleData<T, U = number> = {
-  data: T
-  leftOffset?: U
-  rightOffset?: U
-}
-type SecondHandleData<T, U = number> = {
-  data: T
-  leftOffset?: U
-  rightOffset?: U
-  leftData: T
-  rightData: T
-  height: U
-}
-type Records<T, U> = {
-  data: T
-  height: U
-  leftData: T
-  rightData: T
-  leftOffset?: U
-  rightOffset?: U
-}[]
 
 const mainStore = useMainStore()
 

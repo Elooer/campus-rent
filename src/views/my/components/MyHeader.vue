@@ -40,8 +40,6 @@ import { useMainStore } from '../../../store/index'
 const mainStore = useMainStore()
 const router = useRouter()
 
-console.log(mainStore.token);
-
 
 const toLogin = () => {
   router.push('/login')

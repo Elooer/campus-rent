@@ -15,5 +15,5 @@ export const uploadAvatar = (data: any): PromiseRef =>
     },
   })
 
-export const changeAvatar = (data: any): PromiseRef =>
+export const changeAvatar = (data: { picture: string }): PromiseRef =>
   axios.post('/user/modifyUserPicture', data)

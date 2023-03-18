@@ -30,15 +30,6 @@ import { useRoute, useRouter } from 'vue-router'
 import { addFriend, getFriends } from '../../api/message'
 import { useMainStore } from '../../store'
 
-// interface RowDataList {
-//   uid: string
-//   goodsDescribe: string
-//   picture: string
-//   goodsPrice: string
-//   goodsPicture: string
-//   username: string
-//   goodsName: string
-// }
 const route = useRoute()
 const router = useRouter()
 const currentData = ref()

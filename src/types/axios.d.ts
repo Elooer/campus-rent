@@ -10,3 +10,16 @@ interface RegisterFormItf {
   username: string
   password: string
 }
+
+interface PullMsg {
+  myUid: number
+  friendUid: string
+}
+
+interface AddGoods<T> {
+  goodsName: T
+  goodsPrice: T
+  goodsDescribe: T
+  goodsTime: T
+  goodsPicture: T
+}

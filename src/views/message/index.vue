@@ -18,17 +18,13 @@ import { useRouter } from 'vue-router';
 import Tabbar from '../../components/Tabbar/index.vue'
 import { useMainStore } from '../../store'
 
-type UserList = {
-  uid: string
-  username: string
-  picture: string
-}[]
 
 const mainStore = useMainStore()
 
 const state = reactive<{ userList: UserList }>({
   userList: []
 })
+
 const { userList } = toRefs(state)
 userList.value = mainStore.userList
 
